@@ -59,4 +59,11 @@
         android:id="@+id/reverseRate"
         android:layout_below="@+id/reverseRateHeader" />
 
+    <Button
+        android:id="@+id/graphButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Graph" />
+
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package com.change;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.change.model.Rate;
@@ -19,6 +21,14 @@ public class RateActivity extends Activity {
         TextView currencyView = (TextView) findViewById(R.id.currency);
         TextView rateView = (TextView) findViewById(R.id.rate);
         TextView reverseRateView = (TextView) findViewById(R.id.reverseRate);
+
+        findViewById(R.id.graphButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), GraphActivity.class));
+            }
+        });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
