@@ -1,0 +1,137 @@
+package java.com.change;
+
+import android.app.ActionBar;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import com.change.R;
+import com.change.fragment.Exchange;
+import com.change.fragment.LocalRates;
+import com.change.fragment.Logs;
+import com.change.fragment.Rates;
+import com.change.fragment.Stocks;
+
+public class MainActivity extends FragmentActivity {
+
+    private DrawerLayout drawerLayout;
+    private ListView drawerList;
+    private ActionBarDrawerToggle drawerToggle;
+    private ActionBar actionBar;
+
+    private CharSequence drawerTitle;
+    private CharSequence fragmentTitle;
+    private String[] barTitle;
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        actionBar = getActionBar();
+        fragmentTitle = drawerTitle = getTitle();
+        barTitle = getResources().getStringArray(R.array.fragments_names);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerList = (ListView) findViewById(R.id.left_drawer);
+
+        drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+
+        drawerList.setVisibility(View.VISIBLE);
+        drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, barTitle));
+        drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                selectItem(position);
+            }
+        });
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer,
+                R.string.drawer_open, R.string.drawer_close) {
+            public void onDrawerClosed(View view) {
+                actionBar.setTitle(fragmentTitle);
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                actionBar.setTitle(drawerTitle);
+                invalidateOptionsMenu();
+            }
+        };
+
+        drawerLayout.setDrawerListener(drawerToggle);
+
+        if (savedInstanceState == null) {
+            selectItem(0);
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        fragmentTitle = title;
+        actionBar.setTitle(fragmentTitle);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+    }
+
+    private void selectItem(int position) {
+        Fragment fragment;
+
+        switch (position) {
+            case 0:
+                fragment = new Exchange();
+                break;
+            case 1:
+                fragment = new Rates();
+                break;
+            case 2:
+                fragment = new LocalRates();
+                break;
+            case 3:
+                fragment = new Logs();
+                break;
+            case 4:
+                fragment = new Stocks();
+                break;
+            default:
+                fragment = null;
+                break;
+        }
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+        drawerList.setItemChecked(position, true);
+        setTitle(barTitle[position]);
+        drawerLayout.closeDrawer(drawerList);
+    }
+}

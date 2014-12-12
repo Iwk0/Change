@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="#000"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        style="@style/Header"
+        android:text="@string/currency_from"
+        android:id="@+id/firstHeader"
+        android:layout_weight="1" />
+
+    <TextView
+        style="@style/Header"
+        android:text="@string/currency_to"
+        android:id="@+id/secondHeader"
+        android:layout_weight="1" />
+
+</LinearLayout>

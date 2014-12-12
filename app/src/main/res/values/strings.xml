@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Change</string>
+    <string name="exchange">Exchange</string>
+    <string name="rates">Rates</string>
+    <string name="local_rates">Local rates</string>
+    <string name="code">Code</string>
+    <string name="rate">Rate</string>
+    <string name="reverse">Reverse</string>
+    <string name="name">Name</string>
+    <string name="ratio">Currency</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_dialog">Edit Dialog</string>
+    <string name="logs">Logs</string>
+    <string name="stocks">Stocks</string>
+    <string name="not_enough_in_stock">Not enough in stock</string>
+    <string name="currency_from">Currency from</string>
+    <string name="currency_to">Currency to</string>
+    <string name="currency_from_amount">Currency from amount</string>
+    <string name="currency_to_amount">Currency to amount</string>
+    <string name="date">Date</string>
+    <string name="no_internet">No internet connection Tap to refresh</string>
+    <string name="amount">Amount</string>
+    <string name="empty_fields">All fields are mandatory</string>
+    <string name="no_image">No image</string>
+    <string name="flag">Flag</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string-array name="fragments_names">
+        <item>Exchange</item>
+        <item>Rate</item>
+        <item>Local rate</item>
+        <item>Logs</item>
+        <item>Stock</item>
+    </string-array>
+
+</resources>

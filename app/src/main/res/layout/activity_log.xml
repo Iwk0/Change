@@ -1,0 +1,63 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#778899"
+    tools:context="com.change.LogActivity">
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/dateHeader"
+        android:text="@string/date" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/date"
+        android:layout_below="@+id/dateHeader"/>
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/currencyFromAmountHeader"
+        android:text="@string/currency_from_amount"
+        android:layout_below="@+id/date" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/currencyFromAmount"
+        android:layout_below="@+id/currencyFromAmountHeader"/>
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/codeFromHeader"
+        android:text="@string/code"
+        android:layout_below="@+id/currencyFromAmount" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/codeFrom"
+        android:layout_below="@+id/codeFromHeader"/>
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/currencyToAmountHeader"
+        android:text="@string/currency_to_amount"
+        android:layout_below="@+id/codeFrom" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/currencyToAmount"
+        android:layout_below="@+id/currencyToAmountHeader"/>
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/codeToHeader"
+        android:text="@string/code"
+        android:layout_below="@+id/currencyToAmount" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/codeTo"
+        android:layout_below="@+id/codeToHeader"/>
+
+</RelativeLayout>

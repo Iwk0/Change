@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#778899"
+    tools:context="com.change.RateActivity">
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/nameHeader"
+        android:text="@string/name" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/name"
+        android:layout_below="@id/nameHeader"/>
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/codeHeader"
+        android:text="@string/code"
+        android:layout_below="@+id/name" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/code"
+        android:layout_below="@+id/codeHeader" />
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/currencyHeader"
+        android:text="@string/ratio"
+        android:layout_below="@id/code" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/currency"
+        android:layout_below="@id/currencyHeader" />
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/rateHeader"
+        android:text="@string/rate"
+        android:layout_below="@+id/currency" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/rate"
+        android:layout_below="@id/rateHeader" />
+
+    <TextView
+        style="@style/HeaderInfo"
+        android:id="@+id/reverseRateHeader"
+        android:text="@string/reverse"
+        android:layout_below="@+id/rate" />
+
+    <TextView
+        style="@style/RateInfo"
+        android:id="@+id/reverseRate"
+        android:layout_below="@+id/reverseRateHeader" />
+
+</RelativeLayout>
