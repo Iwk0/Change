@@ -14,8 +14,10 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -78,7 +80,11 @@ public class XmlParser {
 
             rates.remove(0);
 
-            currencyStatus(context, rates);
+            try {
+                currencyStatus(context, rates);
+            } catch (ParseException e) {
+                Log.e("ParseException", e.getMessage());
+            }
 
             for (int i = FixedRates.RATES.length - 1; i >=0; i--) {
                 rate = new Rate();
@@ -102,10 +108,19 @@ public class XmlParser {
         return rates;
     }
 
-    private static void currencyStatus(Context context, List<Rate> rates) {
+    private static String decrementDate(int day) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -day);
+
+        return new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+    }
+
+    private static void currencyStatus(Context context, List<Rate> rates) throws ParseException {
         Database database = new Database(context);
         Movement movement = database.findLastRow();
-        String formattedDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+        String formattedDate = decrementDate(1);
 
         if (movement != null) {
             final int SIZE = movement.rates.size();
@@ -114,14 +129,14 @@ public class XmlParser {
                 Rate tempRate = rates.get(i);
                 Rate tempMovementRate = movement.rates.get(i);
 
-                tempRate.movement = tempMovementRate.movement;
-
                 if (tempMovementRate.rate > tempRate.rate) {
                     tempRate.movement = Rate.DOWN;
                 } else if (tempMovementRate.rate < tempRate.rate) {
                     tempRate.movement = Rate.UP;
-                } else {
+                } else if (!movement.date.equals(formattedDate) && tempMovementRate.rate == tempRate.rate) {
                     tempRate.movement = Rate.EQUAL;
+                } else {
+                    tempRate.movement = tempMovementRate.movement;
                 }
 
                 rates.set(i, tempRate);
