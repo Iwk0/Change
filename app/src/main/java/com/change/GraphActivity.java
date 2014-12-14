@@ -30,6 +30,7 @@ public class GraphActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Database database = new Database(this);
+
             String code = extras.getString(Constants.CODE);
             String startDate = getFirstDateOfCurrentMonth();
             String endDate = simpleFormat.format(new Date());

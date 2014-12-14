@@ -2,41 +2,41 @@
 <resources>
 
     <string name="app_name">Change</string>
-    <string name="exchange">Exchange</string>
-    <string name="rates">Rates</string>
-    <string name="local_rates">Local rates</string>
-    <string name="code">Code</string>
-    <string name="rate">Rate</string>
-    <string name="reverse">Reverse</string>
-    <string name="name">Name</string>
-    <string name="ratio">Currency</string>
-    <string name="edit">Edit</string>
-    <string name="cancel">Cancel</string>
-    <string name="edit_dialog">Edit Dialog</string>
-    <string name="logs">Logs</string>
-    <string name="stocks">Stocks</string>
-    <string name="not_enough_in_stock">Not enough in stock</string>
-    <string name="currency_from">Currency from</string>
-    <string name="currency_to">Currency to</string>
-    <string name="currency_from_amount">Currency from amount</string>
-    <string name="currency_to_amount">Currency to amount</string>
-    <string name="date">Date</string>
-    <string name="no_internet">No internet connection Tap to refresh</string>
-    <string name="amount">Amount</string>
-    <string name="empty_fields">All fields are mandatory</string>
-    <string name="no_image">No image</string>
-    <string name="flag">Flag</string>
+    <string name="exchange">Обмени</string>
+    <string name="rates">Курсове</string>
+    <string name="local_rates">Локални курсове</string>
+    <string name="code">Код</string>
+    <string name="rate">Курс</string>
+    <string name="reverse">Обратен</string>
+    <string name="name">Име</string>
+    <string name="ratio">Валута</string>
+    <string name="edit">Редактиране</string>
+    <string name="cancel">Отмяна</string>
+    <string name="edit_dialog">Редактиране</string>
+    <string name="logs">Логове</string>
+    <string name="stocks">Наличност</string>
+    <string name="not_enough_in_stock">Няма достатъчно в наличност</string>
+    <string name="currency_from">Валута от</string>
+    <string name="currency_to">Валута за</string>
+    <string name="currency_from_amount">Валута от сума</string>
+    <string name="currency_to_amount">Валута за сума</string>
+    <string name="date">Дата</string>
+    <string name="no_internet">Няма интернет връзка, натиснете тук за проверка</string>
+    <string name="amount">Сума</string>
+    <string name="empty_fields">Всички полета са задължителни</string>
+    <string name="no_image">Няма снимка</string>
+    <string name="flag">Флаг</string>
+    <string name="monthly_graph">Месечен график</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="title_activity_graph">Месечен график</string>
 
     <string-array name="fragments_names">
-        <item>Exchange</item>
-        <item>Rate</item>
-        <item>Local rate</item>
-        <item>Logs</item>
-        <item>Stock</item>
+        <item>Обмени</item>
+        <item>Курсове</item>
+        <item>Локални курсове</item>
+        <item>Логове</item>
+        <item>Наличност</item>
     </string-array>
-
-    <string name="title_activity_graph">GraphActivity</string>
 
 </resources>

@@ -13,7 +13,7 @@
     <TextView
         style="@style/Header"
         android:text="@string/flag"
-        android:layout_weight="1" />
+        android:layout_weight="1.5" />
 
     <TextView
         style="@style/Header"

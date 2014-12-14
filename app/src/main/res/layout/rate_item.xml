@@ -13,7 +13,7 @@
     <ImageView
         style="@style/FlagItem"
         android:id="@+id/flag"
-        android:layout_weight="1"
+        android:layout_weight="1.5"
         android:contentDescription="@string/no_image" />
 
     <TextView
