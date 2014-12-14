@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
 import com.change.model.Log;
+import com.change.model.MonthlyGraph;
 import com.change.model.Movement;
 import com.change.model.Rate;
 import com.change.model.Stock;
@@ -57,10 +58,18 @@ public class Database extends SQLiteOpenHelper {
                 Constants.DATE,
                 Constants.RATES);
 
+        String createTableMonthlyGraph = String.format(Constants.TABLE_MONTHLY_GRAPH,
+                Constants.TABLE_NAME_MONTHLY_GRAPH,
+                Constants.ID,
+                Constants.DATE,
+                Constants.CODE,
+                Constants.RATE);
+
         database.execSQL(createTableRates);
         database.execSQL(createTableTransactions);
         database.execSQL(createTableStock);
         database.execSQL(createTableMovement);
+        database.execSQL(createTableMonthlyGraph);
     }
 
     @Override
@@ -69,6 +78,8 @@ public class Database extends SQLiteOpenHelper {
         database.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_LOGS);
         database.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_STOCKS);
         database.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_MOVEMENT);
+        database.execSQL("DROP TABLE IF EXISTS " + Constants.TABLE_NAME_MONTHLY_GRAPH);
+
         onCreate(database);
     }
 
@@ -88,6 +99,33 @@ public class Database extends SQLiteOpenHelper {
 
         db.insert(Constants.TABLE_NAME_LOGS, null, values);
         db.close();
+    }
+
+    public void insertMonthlyGraph(Movement movement, String table) {
+        SQLiteDatabase db = getWritableDatabase();
+        SQLiteStatement insertQuery = db.compileStatement(
+                String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?);",
+                        table,
+                        Constants.DATE,
+                        Constants.CODE,
+                        Constants.RATE));
+
+        db.beginTransaction();
+
+        try {
+            for (Rate rate : movement.rates) {
+                insertQuery.bindString(1, movement.date);
+                insertQuery.bindString(2, rate.code);
+                insertQuery.bindDouble(3, rate.rate);
+                insertQuery.executeInsert();
+            }
+
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            android.util.Log.e("Exception", e.getMessage());
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public void insertRate(List<Rate> rates, String table) {
@@ -275,5 +313,27 @@ public class Database extends SQLiteOpenHelper {
         }
 
         return stocks;
+    }
+
+    public ArrayList<MonthlyGraph> getAllMonthlyGraphs(String table, String code, String startDate, String endDate) {
+        ArrayList<MonthlyGraph> monthlyGraphs = new ArrayList<>();
+
+        Cursor cursor = getWritableDatabase().rawQuery(
+                String.format("SELECT * FROM %s WHERE code = ? AND (Date(date) >= Date(?) AND Date(date) < Date(?))", table),
+                new String[] { code, startDate, endDate });
+
+        if (cursor.moveToFirst()) {
+            do {
+                MonthlyGraph monthlyGraph = new MonthlyGraph();
+                monthlyGraph.id = cursor.getInt(0);
+                monthlyGraph.date = cursor.getString(1);
+                monthlyGraph.code = cursor.getString(2);
+                monthlyGraph.rate = cursor.getDouble(3);
+
+                monthlyGraphs.add(monthlyGraph);
+            } while (cursor.moveToNext());
+        }
+
+        return monthlyGraphs;
     }
 }

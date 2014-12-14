@@ -11,6 +11,8 @@ import com.change.utils.Constants;
 
 public class RateActivity extends Activity {
 
+    private Rate rate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,13 +28,16 @@ public class RateActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), GraphActivity.class));
+                Intent intent = new Intent(getApplicationContext(), GraphActivity.class);
+                intent.putExtra(Constants.CODE, rate.code);
+                intent.putExtra(Constants.RATE_NAME, rate.name);
+                startActivity(intent);
             }
         });
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            Rate rate = extras.getParcelable(Constants.RATE);
+            rate = extras.getParcelable(Constants.RATE);
 
             nameView.setText(rate.name);
             codeView.setText(rate.code);

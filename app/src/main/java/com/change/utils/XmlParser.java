@@ -146,13 +146,17 @@ public class XmlParser {
                 movement = new Movement();
                 movement.date = formattedDate;
                 movement.rates = rates;
+
                 database.insertMovement(movement);
+                database.insertMonthlyGraph(movement, Constants.TABLE_NAME_MONTHLY_GRAPH);
             }
         } else {
             movement = new Movement();
             movement.date = formattedDate;
             movement.rates = rates;
+
             database.insertMovement(movement);
+            database.insertMonthlyGraph(movement, Constants.TABLE_NAME_MONTHLY_GRAPH);
         }
     }
 
