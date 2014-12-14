@@ -249,6 +249,16 @@ public class Database extends SQLiteOpenHelper {
         return stock;
     }
 
+    public double[] findMaxAndMin(String table, String code, String startDate, String endDate) {
+        Cursor cursor = getWritableDatabase().rawQuery(
+                String.format("SELECT max(rate), min(rate) FROM %s WHERE code = ? AND (Date(date) >= Date(?) AND Date(date) < Date(?))", table),
+                new String[] { code, startDate, endDate });
+
+        cursor.moveToFirst();
+
+        return new double[] { cursor.getDouble(0), cursor.getDouble(1) };
+    }
+
     public ArrayList<Rate> getAllRates(String table) {
         ArrayList<Rate> rates = new ArrayList<>();
 
@@ -319,7 +329,7 @@ public class Database extends SQLiteOpenHelper {
         ArrayList<MonthlyGraph> monthlyGraphs = new ArrayList<>();
 
         Cursor cursor = getWritableDatabase().rawQuery(
-                String.format("SELECT * FROM %s WHERE code = ? AND (Date(date) >= Date(?) AND Date(date) < Date(?))", table),
+                String.format("SELECT * FROM %s WHERE code = ? AND (Date(date) >= Date(?) AND Date(date) < Date(?)) ORDER BY date", table),
                 new String[] { code, startDate, endDate });
 
         if (cursor.moveToFirst()) {
