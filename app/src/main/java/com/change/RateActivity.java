@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.change.model.Rate;
@@ -23,8 +24,9 @@ public class RateActivity extends Activity {
         TextView currencyView = (TextView) findViewById(R.id.currency);
         TextView rateView = (TextView) findViewById(R.id.rate);
         TextView reverseRateView = (TextView) findViewById(R.id.reverseRate);
+        Button monthlyGraphButton = (Button) findViewById(R.id.graphButton);
 
-        findViewById(R.id.graphButton).setOnClickListener(new View.OnClickListener() {
+        monthlyGraphButton.findViewById(R.id.graphButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -38,6 +40,10 @@ public class RateActivity extends Activity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             rate = extras.getParcelable(Constants.RATE);
+
+            if (!rate.fixed) {
+                monthlyGraphButton.setVisibility(View.VISIBLE);
+            }
 
             nameView.setText(rate.name);
             codeView.setText(rate.code);

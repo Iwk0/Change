@@ -2,7 +2,7 @@ package com.change.utils;
 
 public interface Constants {
 
-    int DATABASE_VERSION = 2;
+    int DATABASE_VERSION = 16;
     String DATABASE_NAME = "Change";
     String TABLE_RATES = "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s TEXT, %s INTEGER, %s REAL, %s REAL, %s TEXT);";
     String TABLE_TRANSACTIONS = "CREATE TABLE %s (%s INTEGER PRIMARY KEY AUTOINCREMENT, %s TEXT, %s REAL, %s TEXT, %s REAL, %s TEXT);";
@@ -16,6 +16,7 @@ public interface Constants {
     String REVERSE_RATE = "REVERSERATE";
     String RATE = "RATE";
     String RATES = "rates";
+    String CURRENT_DAY = "CURR_DATE";
     String TABLE_NAME_RATES = "rates";
     String TABLE_NAME_LOGS = "logs";
     String TABLE_NAME_STOCKS = "stocks";

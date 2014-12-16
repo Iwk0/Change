@@ -13,6 +13,7 @@ public class Rate implements Parcelable {
     public String name;
     public String code;
     public String movement = EQUAL;
+    public boolean fixed = false;
     public int ratio;
     public double rate;
     public double reverseRate;
@@ -23,6 +24,7 @@ public class Rate implements Parcelable {
         this.name = in.readString();
         this.code = in.readString();
         this.movement = in.readString();
+        this.fixed = in.readByte() != 0;
         this.ratio = in.readInt();
         this.rate = in.readDouble();
         this.reverseRate = in.readDouble();
@@ -38,6 +40,7 @@ public class Rate implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(code);
         parcel.writeString(movement);
+        parcel.writeByte((byte) (fixed ? 1 : 0));
         parcel.writeInt(ratio);
         parcel.writeDouble(rate);
         parcel.writeDouble(reverseRate);

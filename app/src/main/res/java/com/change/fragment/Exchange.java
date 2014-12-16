@@ -23,7 +23,6 @@ import com.change.model.Rate;
 import com.change.model.Stock;
 import com.change.utils.Constants;
 import com.change.utils.Database;
-import com.change.utils.ExchangeLocalRates;
 import com.change.utils.InternetConnection;
 import com.change.utils.Keyboard;
 

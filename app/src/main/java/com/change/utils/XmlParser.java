@@ -17,7 +17,6 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +41,7 @@ public class XmlParser {
 
             Rate rate = null;
             String curText = null;
+            String currentDay = null;
             int event = parser.getEventType();
 
             while (event != XmlPullParser.END_DOCUMENT) {
@@ -71,6 +71,8 @@ public class XmlParser {
                             rate.reverseRate = isNumeric(curText) ? Double.valueOf(curText) : 0;
                         } else if (tagName.equalsIgnoreCase(Constants.RATE)) {
                             rate.rate = isNumeric(curText) ? Double.valueOf(curText) : 0;
+                        } else if (tagName.equalsIgnoreCase(Constants.CURRENT_DAY)) {
+                            currentDay = curText;
                         }
                         break;
                 }
@@ -81,22 +83,12 @@ public class XmlParser {
             rates.remove(0);
 
             try {
-                currencyStatus(context, rates);
+                currencyStatus(context, rates, currentDay);
             } catch (ParseException e) {
                 Log.e("ParseException", e.getMessage());
             }
 
-            for (int i = FixedRates.RATES.length - 1; i >=0; i--) {
-                rate = new Rate();
-
-                rate.name = (String) FixedRates.RATES[i][0];
-                rate.code = (String) FixedRates.RATES[i][1];
-                rate.ratio = (Integer) FixedRates.RATES[i][2];
-                rate.rate = (Double) FixedRates.RATES[i][3];
-                rate.reverseRate = (Double) FixedRates.RATES[i][4];
-
-                rates.add(0, rate);
-            }
+            fixedRates(rates);
         } catch (MalformedURLException e) {
             Log.e("MalformedURLException", e.getMessage());
         } catch (IOException e) {
@@ -108,19 +100,30 @@ public class XmlParser {
         return rates;
     }
 
-    private static String decrementDate(int day) {
-        Calendar c = Calendar.getInstance();
-        c.setTime(new Date());
-        c.add(Calendar.DATE, -day);
+    private static void fixedRates(ArrayList<Rate> rates) {
+        for (int i = FixedRates.RATES.length - 1; i >=0; i--) {
+            Rate rate = new Rate();
 
-        return new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+            rate.name = (String) FixedRates.RATES[i][0];
+            rate.code = (String) FixedRates.RATES[i][1];
+            rate.ratio = (Integer) FixedRates.RATES[i][2];
+            rate.rate = (Double) FixedRates.RATES[i][3];
+            rate.reverseRate = (Double) FixedRates.RATES[i][4];
+            rate.fixed = true;
+
+            rates.add(0, rate);
+        }
     }
 
-    private static void currencyStatus(Context context, List<Rate> rates) throws ParseException {
+    private static void currencyStatus(Context context, List<Rate> rates, String currentDay) throws ParseException {
         Database database = new Database(context);
         Movement movement = database.findLastRow();
 
-        String formattedDate = decrementDate(1);
+        SimpleDateFormat simpleFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Date date = simpleFormat.parse(currentDay);
+
+        simpleFormat.applyPattern("yyyy-MM-dd");
+        String formattedDate = simpleFormat.format(date);
 
         if (movement != null) {
             final int SIZE = movement.rates.size();

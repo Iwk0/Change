@@ -16,7 +16,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class GraphActivity extends Activity {
 
@@ -32,14 +31,10 @@ public class GraphActivity extends Activity {
             Database database = new Database(this);
 
             String code = extras.getString(Constants.CODE);
-            String startDate = getFirstDateOfCurrentMonth();
-            String endDate = simpleFormat.format(new Date());
 
             ArrayList<MonthlyGraph> monthlyGraphs = database.getAllMonthlyGraphs(
                     Constants.TABLE_NAME_MONTHLY_GRAPH,
-                    code,
-                    startDate,
-                    endDate);
+                    code);
 
             int SIZE = monthlyGraphs.size();
 
@@ -67,23 +62,14 @@ public class GraphActivity extends Activity {
 
             double[] maxAndMin = database.findMaxAndMin(
                     Constants.TABLE_NAME_MONTHLY_GRAPH,
-                    code,
-                    startDate,
-                    endDate);
+                    code);
 
-            graphView.setManualYAxisBounds(maxAndMin[0], maxAndMin[1]);
+            graphView.setManualYAxisBounds(maxAndMin[0] + 0.0150, maxAndMin[1] - 0.020);
             graphView.addSeries(monthlySeries);
 
             RelativeLayout layout = (RelativeLayout) findViewById(R.id.graph);
             layout.addView(graphView);
         }
-    }
-
-    private String getFirstDateOfCurrentMonth() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMinimum(Calendar.DAY_OF_MONTH));
-
-        return simpleFormat.format(cal.getTime());
     }
 
     private int getDay(String date) throws ParseException {

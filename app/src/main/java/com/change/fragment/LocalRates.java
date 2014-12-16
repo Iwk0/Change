@@ -27,6 +27,7 @@ public class LocalRates extends Fragment {
     private AsyncTask asyncTask;
     private Activity activity;
     private RateAdapter rateAdapter;
+    private Database database;
 
     private Dialog dialog;
     private EditText ratioText;
@@ -40,6 +41,7 @@ public class LocalRates extends Fragment {
         View view = inflater.inflate(R.layout.fragment_local_rates, container, false);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         activity = getActivity();
+        database = new Database(activity);
 
         asyncTask = new AsyncTask<Void, Void, ArrayList<Rate>>() {
 
@@ -53,7 +55,6 @@ public class LocalRates extends Fragment {
             protected ArrayList<Rate> doInBackground(Void... voids) {
                 ArrayList<Rate> rates;
 
-                Database database = new Database(activity);
                 do {
                     rates = database.getAllRates(Constants.TABLE_NAME_RATES);
                 } while (rates.isEmpty());
@@ -104,7 +105,7 @@ public class LocalRates extends Fragment {
                                     rate.rate = Double.valueOf(rateAsString);
                                     rate.reverseRate = Double.valueOf(reverseRateAsString);
 
-                                    new Database(activity).update(rate, Constants.TABLE_NAME_RATES, rate.id);
+                                    database.update(rate, Constants.TABLE_NAME_RATES, rate.id);
 
                                     rateAdapter.notifyDataSetChanged();
                                     dialog.dismiss();

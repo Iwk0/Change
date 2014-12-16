@@ -235,7 +235,7 @@ public class Database extends SQLiteOpenHelper {
 
     public Stock findStockById(String table, int code) {
         Cursor cursor = getWritableDatabase().
-                rawQuery(String.format("SELECT * FROM %s where id = %d", table, code), null);
+                rawQuery(String.format("SELECT * FROM %s where id = ?", table), new String[] { String.valueOf(code) });
 
         Stock stock = new Stock();
         if (cursor.moveToFirst()) {
@@ -249,10 +249,10 @@ public class Database extends SQLiteOpenHelper {
         return stock;
     }
 
-    public double[] findMaxAndMin(String table, String code, String startDate, String endDate) {
+    public double[] findMaxAndMin(String table, String code) {
         Cursor cursor = getWritableDatabase().rawQuery(
-                String.format("SELECT max(rate), min(rate) FROM %s WHERE code = ? AND (Date(date) >= Date(?) AND Date(date) < Date(?))", table),
-                new String[] { code, startDate, endDate });
+                String.format("SELECT max(rate), min(rate) FROM %s WHERE code = ? AND date BETWEEN Date('now', 'start of month') AND Date('now', 'start of month', '+1 month', '-1 day')", table),
+                new String[] { code });
 
         cursor.moveToFirst();
 
@@ -325,12 +325,12 @@ public class Database extends SQLiteOpenHelper {
         return stocks;
     }
 
-    public ArrayList<MonthlyGraph> getAllMonthlyGraphs(String table, String code, String startDate, String endDate) {
+    public ArrayList<MonthlyGraph> getAllMonthlyGraphs(String table, String code) {
         ArrayList<MonthlyGraph> monthlyGraphs = new ArrayList<>();
 
         Cursor cursor = getWritableDatabase().rawQuery(
-                String.format("SELECT * FROM %s WHERE code = ? AND (Date(date) >= Date(?) AND Date(date) < Date(?)) ORDER BY date", table),
-                new String[] { code, startDate, endDate });
+                String.format("SELECT * FROM %s WHERE code = ? AND date BETWEEN Date('now', 'start of month') AND Date('now', 'start of month', '+1 month', '-1 day') ORDER BY date", table),
+                new String[] { code });
 
         if (cursor.moveToFirst()) {
             do {

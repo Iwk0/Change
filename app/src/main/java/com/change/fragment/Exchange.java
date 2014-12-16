@@ -23,9 +23,9 @@ import com.change.model.Rate;
 import com.change.model.Stock;
 import com.change.utils.Constants;
 import com.change.utils.Database;
-import com.change.utils.ExchangeLocalRates;
 import com.change.utils.InternetConnection;
 import com.change.utils.Keyboard;
+import com.change.utils.XmlParser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,6 +60,8 @@ public class Exchange extends Fragment {
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         noInternetView = (TextView) view.findViewById(R.id.noInternetView);
         exchange = (Button) view.findViewById(R.id.exchange);
+
+        database = new Database(activity);
 
         exchange.setOnClickListener(new View.OnClickListener() {
 
@@ -98,8 +100,6 @@ public class Exchange extends Fragment {
     }
 
     private void addComponents() {
-        database = new Database(activity);
-
         ArrayList<Rate> rates = database.getAllRates(Constants.TABLE_NAME_RATES);
 
         if (InternetConnection.isConnected(activity) || !rates.isEmpty()) {
@@ -119,8 +119,6 @@ public class Exchange extends Fragment {
 
                 setVisible();
             } else {
-                new ExchangeLocalRates(activity).execute();
-
                 asyncTask = new AsyncTask<Void, Void, ArrayList<Rate>>() {
 
                     @Override
@@ -131,13 +129,10 @@ public class Exchange extends Fragment {
 
                     @Override
                     protected ArrayList<Rate> doInBackground(Void... voids) {
-                        ArrayList<Rate> rates;
+                        database.insertRate(XmlParser.parseBNBRates(activity), Constants.TABLE_NAME_RATES);
+                        database.fillStockTable();
 
-                        do {
-                            rates = database.getAllRates(Constants.TABLE_NAME_RATES);
-                        } while (rates.isEmpty());
-
-                        return rates;
+                        return database.getAllRates(Constants.TABLE_NAME_RATES);
                     }
 
                     @Override

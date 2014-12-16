@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity {
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
         drawerList.setVisibility(View.VISIBLE);
-        drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, barTitle));
+        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, barTitle));
         drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
