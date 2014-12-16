@@ -44,8 +44,8 @@ public class Exchange extends Fragment {
     private EditText amountText;
     private Spinner fromCurrencySpinner;
     private Spinner toCurrencySpinner;
-    private Button exchange;
     private ProgressBar progressBar;
+    private Button exchange;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,11 +54,11 @@ public class Exchange extends Fragment {
         activity = getActivity();
         resultView = (TextView) view.findViewById(R.id.result);
         amountLabel = (TextView) view.findViewById(R.id.amountLabel);
+        noInternetView = (TextView) view.findViewById(R.id.noInternetView);
         amountText = (EditText) view.findViewById(R.id.amount);
         fromCurrencySpinner = (Spinner) view.findViewById(R.id.fromCurrencySpinner);
         toCurrencySpinner = (Spinner) view.findViewById(R.id.toCurrencySpinner);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        noInternetView = (TextView) view.findViewById(R.id.noInternetView);
         exchange = (Button) view.findViewById(R.id.exchange);
 
         database = new Database(activity);

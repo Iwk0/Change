@@ -41,6 +41,9 @@ public class MainActivity extends FragmentActivity {
         fragmentTitle = drawerTitle = getTitle();
         barTitle = getResources().getStringArray(R.array.fragments_names);
 
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
@@ -55,9 +58,6 @@ public class MainActivity extends FragmentActivity {
                 selectItem(position);
             }
         });
-
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
 
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.drawable.ic_drawer,
                 R.string.drawer_open, R.string.drawer_close) {
