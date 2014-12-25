@@ -48,8 +48,7 @@ public class Exchange extends Fragment {
     private Button exchange;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exchange, container, false);
         activity = getActivity();
         resultView = (TextView) view.findViewById(R.id.result);
@@ -167,19 +166,19 @@ public class Exchange extends Fragment {
 
             resultView.setText(String.format("%.2f %s", result, toRate.code));
 
-            Log log = new Log();
-            log.currentDay = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-            log.codeFrom = fromRate.code;
-            log.codeTo = toRate.code;
-            log.currencyFromAmount = amount;
-            log.currencyToAmount = result;
-
-            database.insertLog(log);
-
             if (!fromRate.code.equals(toRate.code)) {
                 Stock stockTo = database.findStockById(Constants.TABLE_NAME_STOCKS, toRate.id);
 
                 if (stockTo.stock - result >= 0) {
+                    Log log = new Log();
+                    log.currentDay = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+                    log.codeFrom = fromRate.code;
+                    log.codeTo = toRate.code;
+                    log.currencyFromAmount = amount;
+                    log.currencyToAmount = result;
+
+                    database.insertLog(log);
+
                     Stock stockFrom = database.findStockById(Constants.TABLE_NAME_STOCKS, fromRate.id);
 
                     database.update(Constants.TABLE_NAME_STOCKS, fromRate.code, stockFrom.stock + amount);

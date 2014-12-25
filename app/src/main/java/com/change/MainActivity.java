@@ -3,7 +3,6 @@ package com.change;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -43,13 +42,16 @@ public class MainActivity extends FragmentActivity {
         fragmentTitle = drawerTitle = getTitle();
         barTitle = getResources().getStringArray(R.array.fragments_names);
 
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerList = (ListView) findViewById(R.id.left_drawer);
 
+        drawerToggle = new CustomActionBarDrawerToggle(this, drawerLayout);
+
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+
         drawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+        drawerLayout.setDrawerListener(drawerToggle);
 
         drawerList.setVisibility(View.VISIBLE);
         drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, barTitle));
@@ -60,10 +62,6 @@ public class MainActivity extends FragmentActivity {
                 selectItem(position);
             }
         });
-
-        drawerToggle = new CustomActionBarDrawerToggle(this, drawerLayout);
-
-        drawerLayout.setDrawerListener(drawerToggle);
 
         if (savedInstanceState == null) {
             selectItem(0);
@@ -137,8 +135,7 @@ public class MainActivity extends FragmentActivity {
                 break;
         }
 
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         drawerList.setItemChecked(position, true);
         setTitle(barTitle[position]);
